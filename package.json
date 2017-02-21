@@ -10,7 +10,10 @@
     "store"
   ],
   "main": "index.js",
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saeidalidadi/shahcache.git"
+  },
   "author": "Saeid Alidadi <alidadisaeid@gmail.com>",
   "devDependencies": {
     "chai": "^3.5.0"
