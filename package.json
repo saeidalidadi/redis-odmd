@@ -1,6 +1,6 @@
 {
   "name": "shahcache",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "creates also returns hashes in a dictionary from redis.",
   "keywords": [
     "redis",
