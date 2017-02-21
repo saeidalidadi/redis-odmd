@@ -1,0 +1,25 @@
+{
+  "name": "shahcache",
+  "version": "1.0.1",
+  "description": "creates also returns hashes in a dictionary from redis.",
+  "keywords": [
+    "redis",
+    "cache",
+    "hash",
+    "dictionary",
+    "store"
+  ],
+  "main": "index.js",
+  "repository": {},
+  "author": "Saeid Alidadi <alidadisaeid@gmail.com>",
+  "devDependencies": {
+    "chai": "^3.5.0"
+  },
+  "dependencies": {
+    "redis": "^2.6.5"
+  },
+  "scripts": {
+    "test": "mocha test/dictionary.test.js"
+  },
+  "license": "SEE LICENSE IN LICENSE.md"
+}
