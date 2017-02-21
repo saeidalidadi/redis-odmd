@@ -53,3 +53,5 @@ Is an object which:
 `.delete(id)` redis return style.
 
 `.exists(id)` redis return style.
+
+`.count()` number of stored hashes in dictionary.

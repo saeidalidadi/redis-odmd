@@ -21,5 +21,5 @@
   "scripts": {
     "test": "mocha test/dictionary.test.js"
   },
-  "license": "SEE LICENSE IN LICENSE.md"
+  "license": "MIT"
 }
