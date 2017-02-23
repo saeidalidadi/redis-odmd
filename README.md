@@ -44,24 +44,45 @@ Is an object which:
 
 ## methods
 
-`set(id, data<Object|String>)` returns `OK` like redis.
+* `set(id, data<Object|String>)` returns `OK` like redis.
 
-`get(id)` return an dictionary object.
+* `get(id)` returns an dictionary object.
 
-`get(id, property)` 
+* `get(id, property)` returns the property from stored hash.
+  
+    ### Example
 
-`getAll()` returns an object with `id`'s as keys.
+    ```javascript
+    // stored hash
+    const user = {
+      name: 'John',
+      family: 'Doe'
+    }
+    user_dictionary.get(id, 'name').then(result => {
+      console.log(result.data.name) // John 
+    })
+    ```
 
-`delete(id)` redis return style.
+* `getAll()` returns an object with `id`'s as keys.
 
-`exists(id)` redis return style.
+* `delete(id)` redis return style.
 
-`count()` number of stored hashes in dictionary.
+* `exists(id)` redis return style.
 
-`create(id, data<Object|String>)` returns an object of dictionary
+* `count()` number of stored hashes in dictionary.
 
-`save()`
+* `create(id, data<Object|String>)` returns an object of dictionary
 
-`update()`
+* `update()` should be called after `get` and will `set` the hash with last changes. returns a promise.
+
+    ### Example
+
+    ```javascript
+    dictionary.get('123').then(dic => {
+      dic.data.new_field = 'new_field';
+      dic.update()
+    })
+    ```
+
 
 
