@@ -55,7 +55,7 @@ describe('Dictionary class', () => {
         dictionary.set(first_sample_id, first_sample_data).then(result => {
             expect(result).to.equal('OK');
             dictionary.get(first_sample_id).then(result => {
-              result.should.have.property('name', first_sample_data.name);
+              result.data.should.have.property('name', first_sample_data.name);
               done();
             })
         })
@@ -68,15 +68,28 @@ describe('Dictionary class', () => {
       })
     })
 
-    // Dictionary.get(id) should return cached data for a id.
+    it('should set new values for cuurent stored hash', (done) => {
+      dictionary.set(first_sample_id, first_sample_data).then(result => {
+        dictionary.get(first_sample_id).then(result => {
+          dictionary.set(first_sample_id, second_sample_data).then(result => {
+            dictionary.get(first_sample_id).then(result => {
+              result.data.name.should.be.equal(second_sample_data.name);
+              result.data.dob.should.be.equal(second_sample_data.dob);
+              done()
+            })
+          })
+        })
+      })
+    })
+    // Dictionary.get(id) should return a dictionary object with data for a id.
     it('Should has a promise method as get()', () => {
       has_method_as_promise('get');
-    }) 
+    })
 
     it('should "return" data for a id.', (done) => {
         dictionary.set(first_sample_id, first_sample_data).then(result => {
             dictionary.get(first_sample_id).then(result => {
-              result.should.have.property('name', first_sample_data.name);
+              result.data.should.have.property('name', first_sample_data.name);
               done();
             })
         })
@@ -84,11 +97,21 @@ describe('Dictionary class', () => {
 
     it('should return "null" if id is not exist in cache.', (done) => {
         dictionary.get('random_id').then(result => {
-            expect(result).to.equal(null);
+            expect(result.data).to.equal(null);
             done();
         });
     });
-
+    
+    it('Should "get" a field of the hash in dictionary', (done) => {
+      dictionary.set(first_sample_id, first_sample_data).then(result => {
+        const keys = Object.keys(first_sample_data);
+        const key = keys[0];
+        dictionary.get(first_sample_id, key).then(result => {
+          result.data[key].should.be.equal(first_sample_data[key]);
+          done()
+        })
+      })
+    })
     // dictionary.exists(id) should resolve "true" if the id exsist
     it('should has a promise method as "exsists()"', () => {
       has_method_as_promise('exists');
@@ -153,14 +176,34 @@ describe('Dictionary class', () => {
         dictionary.set(id, user_data).then(result => {
             expect(result).to.equal('OK');
             dictionary.get(id).then(result => {
-              expect(result.ids.join(',')).to.eql(user_data.ids);
-              result.ids.should.be.instanceof(Array);
-              result.ids.should.have.lengthOf(3);
+              expect(result.data.ids.join(',')).to.eql(user_data.ids);
+              result.data.ids.should.be.instanceof(Array);
+              result.data.ids.should.have.lengthOf(3);
               done();
             })
         })
     })
+
+    // Dictionary.create(id, data) shoud return this dictionary object for chaining
+    it('Should "create" a dictionary for future use', () => {
+      const dic = dictionary.create(first_sample_id, first_sample_data)
+      dic.should.be.instanceOf(Object);
+      dic.create.should.be.instanceOf(Function);
+      dic.id.should.be.equal(first_sample_id);
+    })
+
     // dictionary.update()
+    it('shoud update the stored hash with new one', (done) => {
+      dictionary.set(first_sample_id, first_sample_data).then(result => {
+        dictionary.get(first_sample_id).then(dic => {
+          dic.data.name = 'James';
+          dic.update().then(result => {
+            result.should.be.equal('OK');
+            done();
+          })
+        })
+      });
+    })
     // dictionary.getMapAll() should return all data for dictionry as Map()
     // dictionary.getAsMap(id) should return data for in id as map
 })

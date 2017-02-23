@@ -44,14 +44,24 @@ Is an object which:
 
 ## methods
 
-`.set(id, data<Object|String>)` returns `OK` like redis.
+`set(id, data<Object|String>)` returns `OK` like redis.
 
-`.get(id)`
+`get(id)` return an dictionary object.
 
-`.getAll()` returns an object with `id`'s as keys.
+`get(id, property)` 
 
-`.delete(id)` redis return style.
+`getAll()` returns an object with `id`'s as keys.
 
-`.exists(id)` redis return style.
+`delete(id)` redis return style.
 
-`.count()` number of stored hashes in dictionary.
+`exists(id)` redis return style.
+
+`count()` number of stored hashes in dictionary.
+
+`create(id, data<Object|String>)` returns an object of dictionary
+
+`save()`
+
+`update()`
+
+

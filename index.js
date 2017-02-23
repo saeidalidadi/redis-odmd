@@ -13,6 +13,7 @@ class Dictionary {
     this.type = 'Object';
     this.arraySeperator = options.arraySeperator || ',';
     this.client = internals.client;
+    this.id = '';
   }
 
   /**
@@ -24,6 +25,7 @@ class Dictionary {
    */
   set(object_id, data)
   {
+    this.id = object_id;
     const key = this.key(object_id);
     this.type = data instanceof Object ? 'Object' : (data instanceof Array ? 'Array' : 'String');
     internals.find_arrays.call(this, data);
@@ -59,25 +61,26 @@ class Dictionary {
             return reject(err);
           }
           internals.convert_to_array.call(this, result);
-          resolve(result);
+          this.data = result;
+          resolve(this);
         });
       }
       this.client.hget(key, property, (err, result) => {
         if(err) {
           return reject(err);
         }
-        resolve();
+        this.data ? this.data[property] = result : this.data = { [property]: result};
+        resolve(this);
       });
     });
   }
 
-  getAll() {
-    
+  getAll()
+  {
     const key = this.key();
     const data = {};
-    
+
     return new Promise((resolve, reject) => {
-      
       this.client.keys(`${key}*`, (err, keys) => {
         
         if(err) return reject(err);
@@ -130,7 +133,8 @@ class Dictionary {
     });
   }
 
-  exists(id, property) {
+  exists(id, property)
+  {
     const key = this.key(id);
     return new Promise((resolve, reject) => {
       if(!property) {
@@ -148,15 +152,33 @@ class Dictionary {
     })
   }
 
-  toArray (property) {
+  create(id, data)
+  {
+    this.data = data;
+    this.id = id;
+    return this;
+  }
+
+  save()
+  {
+    return this.set(this.id, this.data);
+  }
+
+  update()
+  {
+    return this.set(this.id, this.data);
+  }
+
+  toArray (property)
+  {
     return property.split(',');
   }
 
-  key(id) {
+  key(id)
+  {
     return `${this.PREFIX}${this.SEPERATOR}${id || ''}`;
   }
 }
-
 
 internals.find_arrays = function(data) {
   if(data instanceof Object) {
