@@ -142,6 +142,17 @@ describe('Dictionary class', () => {
         })
       })
     })
+
+    it('shoud delete this hashed data from cache', (done) => {
+      dictionary.set(first_sample_id, first_sample_data).then(result => {
+        dictionary.get(first_sample_id).then(dic => {
+          dic.delete().then(result => {
+            result.should.be.equal(1);
+            done();
+          })
+        })
+      })
+    })
     // dictionary.getAll() should return all data from cache for a dictionry
     it('should has a promise method as getAll()', () => {
       has_method_as_promise('getAll');
@@ -154,6 +165,7 @@ describe('Dictionary class', () => {
             result.should.be.instanceof(Object);
             result[first_sample_id].should.be.instanceof(Object);
             result[first_sample_id].should.be.eql(first_sample_data);
+            result[second_sample_id].should.be.eql(second_sample_data);
             done();
           })
         })

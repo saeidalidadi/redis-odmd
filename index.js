@@ -23,10 +23,10 @@ class Dictionary {
    * @param   {String} object_id
    * @returns {Promise.<OK>} returns OK for successfull action
    */
-  set(object_id, data)
+  set(id, data)
   {
-    this.id = object_id;
-    const key = this.key(object_id);
+    this.id = id || this.id;
+    const key = this.key(id);
     this.type = data instanceof Object ? 'Object' : (data instanceof Array ? 'Array' : 'String');
     internals.find_arrays.call(this, data);
     internals.join_arrays.call(this, data);
@@ -51,9 +51,8 @@ class Dictionary {
   /**
    * @returns {Promise.<Object|Array>} cached data
    */
-  get(data_id, property) {
-    const key = this.key(data_id);
-
+  get(id, property) {
+    const key = this.key(id);
     return new Promise((resolve, reject) => {
       if(!property) {
         return this.client.hgetall(key, (err, result) => {
@@ -81,7 +80,7 @@ class Dictionary {
     const data = {};
 
     return new Promise((resolve, reject) => {
-      this.client.keys(`${key}*`, (err, keys) => {
+      this.client.keys(`${this.PREFIX}${this.SEPERATOR}*`, (err, keys) => {
         
         if(err) return reject(err);
         
@@ -118,7 +117,7 @@ class Dictionary {
 
   delete(object_id, property)
   {
-    let key = this.key(object_id);
+    let key = object_id ? this.key(object_id) : this.key();
     return new Promise((resolve, reject) => {
       if(!property) {
         return this.client.del(key, (err, result) => {
@@ -176,7 +175,8 @@ class Dictionary {
 
   key(id)
   {
-    return `${this.PREFIX}${this.SEPERATOR}${id || ''}`;
+    id = id || this.id;
+    return `${this.PREFIX}${this.SEPERATOR}${id}`;
   }
 }
 
