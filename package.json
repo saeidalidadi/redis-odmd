@@ -1,7 +1,7 @@
 {
   "name": "redis-odmd",
   "version": "0.0.0-development",
-  "description": "ODM like for redis node.js client",
+  "description": "ODM like for redis cache server.",
   "keywords": [
     "redis",
     "cache",
@@ -17,9 +17,12 @@
   "author": "Saeid Alidadi <alidadisaeid@gmail.com>",
   "devDependencies": {
     "chai": "^3.5.0",
-    "semantic-release": "^7.0.2"
+    "inherits": "^2.0.3",
+    "semantic-release": "^7.0.2",
+    "wide-align": "^1.1.2"
   },
   "dependencies": {
+    "npmlog": "^4.1.0",
     "redis": "^2.6.5"
   },
   "scripts": {
