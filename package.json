@@ -1,7 +1,7 @@
 {
   "name": "redis-odmd",
   "version": "0.0.0-development",
-  "description": "creates also returns hashes in a dictionary from redis.",
+  "description": "ODM like for redis node.js client",
   "keywords": [
     "redis",
     "cache",
