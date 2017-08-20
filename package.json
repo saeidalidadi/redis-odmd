@@ -1,5 +1,5 @@
 {
-  "name": "shahcache",
+  "name": "redis-odmd",
   "version": "2.1.0",
   "description": "creates also returns hashes in a dictionary from redis.",
   "keywords": [
