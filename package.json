@@ -1,6 +1,6 @@
 {
   "name": "redis-odmd",
-  "version": "2.1.0",
+  "version": "0.0.0-development",
   "description": "creates also returns hashes in a dictionary from redis.",
   "keywords": [
     "redis",
@@ -16,13 +16,15 @@
   },
   "author": "Saeid Alidadi <alidadisaeid@gmail.com>",
   "devDependencies": {
-    "chai": "^3.5.0"
+    "chai": "^3.5.0",
+    "semantic-release": "^7.0.2"
   },
   "dependencies": {
     "redis": "^2.6.5"
   },
   "scripts": {
-    "test": "mocha test/dictionary.test.js"
+    "test": "mocha test/dictionary.test.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "license": "MIT"
 }
