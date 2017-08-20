@@ -7,12 +7,13 @@
     "cache",
     "hash",
     "dictionary",
-    "store"
+    "store",
+    "odm"
   ],
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/saeidalidadi/shahcache.git"
+    "url": "https://github.com/saeidalidadi/redis-odmd.git"
   },
   "author": "Saeid Alidadi <alidadisaeid@gmail.com>",
   "devDependencies": {
