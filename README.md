@@ -1,13 +1,16 @@
 
+For some use cases we need to have a `ODM` like structure in order to work with our
+our stored hash data in `redis`. this module give us all the main methods for that but there
+is't already any kind of `schemas` to define or `validations`.
 
 ```
-npm install shahcache
+npm install redis-odmd
 ```
 
 ## Example
 
 ```javascript
-const shahcache = require('shahcache');
+const shahcache = require('redis-odmd');
 
 const options = {
     prefix: 'online', // Prefix for your dictionary
@@ -20,8 +23,8 @@ const options = {
 const online_users = shahcache(options);
 
 let data = {
-      name: 'Mohammadreza',
-      family: 'Pahlavi'
+      name: 'John',
+      family: 'Doe'
     }
 
 // Add data to your dictionary (store hash string)
