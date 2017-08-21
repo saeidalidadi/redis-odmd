@@ -1,6 +1,6 @@
 {
   "name": "redis-odmd",
-  "version": "0.0.0-development",
+  "version": "0.0.0",
   "description": "ODM like for redis cache server.",
   "keywords": [
     "redis",
@@ -19,10 +19,12 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "inherits": "^2.0.3",
+    "mocha": "^3.5.0",
     "semantic-release": "^7.0.2",
     "wide-align": "^1.1.2"
   },
   "dependencies": {
+    "flat": "^4.0.0",
     "npmlog": "^4.1.0",
     "redis": "^2.6.5"
   },
