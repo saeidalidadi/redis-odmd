@@ -18,15 +18,16 @@
   "author": "Saeid Alidadi <alidadisaeid@gmail.com>",
   "devDependencies": {
     "chai": "^3.5.0",
+    "core-util-is": "^1.0.2",
     "inherits": "^2.0.3",
     "mocha": "^3.5.0",
-    "semantic-release": "^7.0.2",
-    "wide-align": "^1.1.2"
+    "util-deprecate": "^1.0.2",
+    "wide-align": "^1.1.2",
+    "semantic-release": "^7.0.2"
   },
   "dependencies": {
     "flat": "^4.0.0",
-    "npmlog": "^4.1.0",
-    "redis": "^2.6.5"
+    "redis": "^2.6.5",
   },
   "scripts": {
     "test": "mocha test/dictionary.test.js",
