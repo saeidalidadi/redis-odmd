@@ -45,7 +45,7 @@ describe('Dictionary class', () => {
       })
     })
 
-    // Dictionary.set(id, data) should set data for a id. 
+    // Dictionary.set(id, data) should set data for a id.
     /*
     it('should has a promise method as "set()"', () => {
       has_method_as_promise('set');
@@ -101,7 +101,7 @@ describe('Dictionary class', () => {
             done();
         });
     });
-    
+
     it('Should "get" a field of the hash in dictionary', (done) => {
       dictionary.set(first_sample_id, first_sample_data).then(result => {
         const keys = Object.keys(first_sample_data);
@@ -188,7 +188,7 @@ describe('Dictionary class', () => {
         dictionary.set(id, user_data).then(result => {
             expect(result).to.equal('OK');
             dictionary.get(id).then(result => {
-              expect(result.data.ids.join(',')).to.eql(user_data.ids);
+              expect(result.data.ids).to.eql(user_data.ids);
               result.data.ids.should.be.instanceof(Array);
               result.data.ids.should.have.lengthOf(3);
               done();
@@ -215,6 +215,21 @@ describe('Dictionary class', () => {
           })
         })
       });
+    })
+    // for nested objects
+    it('should "set" a nested object data for an id.', (done) => {
+      options.hasNested = true;
+      const nestedDictionary = Dictionary(options)
+      first_sample_data.nested = {
+        firstProp: 'thisIsAnested'
+      };
+      nestedDictionary.set(first_sample_id, first_sample_data).then(result => {
+        expect(result).to.equal('OK');
+        dictionary.get(first_sample_id).then(result => {
+          result.data.should.have.property('name', first_sample_data.name);
+          done();
+        })
+      })
     })
     // dictionary.getMapAll() should return all data for dictionry as Map()
     // dictionary.getAsMap(id) should return data for in id as map

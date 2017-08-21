@@ -1,4 +1,5 @@
-const Redis = require('redis'); 
+const Redis = require('redis');
+const Flat = require('flat');
 
 // Private methods
 const internals = {}
@@ -11,9 +12,9 @@ class Dictionary {
     this.arrayProps = [];
     this.data = {};
     this.type = 'Object';
-    this.arraySeperator = options.arraySeperator || ',';
     this.client = internals.client;
     this.id = '';
+    this.hasNested = options.hasNested || false;
   }
 
   /**
@@ -28,8 +29,7 @@ class Dictionary {
     this.id = id || this.id;
     const key = this.key(id);
     this.type = data instanceof Object ? 'Object' : (data instanceof Array ? 'Array' : 'String');
-    internals.find_arrays.call(this, data);
-    internals.join_arrays.call(this, data);
+    data = Flat.flatten(data);
     return new Promise((resolve, reject) => {
       if(data instanceof Object) {
         return this.client.hmset(key, data, function(err, result) {
@@ -59,8 +59,9 @@ class Dictionary {
           if(err) {
             return reject(err);
           }
-          internals.convert_to_array.call(this, result);
-          this.data = result;
+          //internals.convert_to_array.call(this, result);
+
+          this.data = Flat.unflatten(result);
           resolve(this);
         });
       }
@@ -81,20 +82,20 @@ class Dictionary {
 
     return new Promise((resolve, reject) => {
       this.client.keys(`${this.PREFIX}${this.SEPERATOR}*`, (err, keys) => {
-        
+
         if(err) return reject(err);
-        
+
         if(!keys.length) return resolve(0);
-        
+
         for(let i in keys) {
-          
+
           ((i) => {
-            
+
             this.client.hgetall(keys[i], (err, result) => {
               if(err) return reject(err);
               const id = internals.trim_prefix.call(this, keys[i]);
-              data[id] = result;
-              (i == keys.length -1) ? resolve(data) : void(0); 
+              data[id] = Flat.unflatten(result);
+              (i == keys.length -1) ? resolve(data) : void(0);
             })
           })(i);
         }
@@ -105,7 +106,7 @@ class Dictionary {
   /**
    * @returns {Promise.<Number>} number of values
    */
-  count() 
+  count()
   {
     return new Promise((resolve, reject) => {
       this.client.keys(`${this.key()}*`, (err, result) => {
@@ -180,6 +181,7 @@ class Dictionary {
   }
 }
 
+/*
 internals.find_arrays = function(data) {
   if(data instanceof Object) {
     for(let key in data) {
@@ -207,6 +209,7 @@ internals.join_arrays = function(data) {
     }
   }
 }
+*/
 
 internals.trim_prefix = function(key) {
   return key.split(this.SEPERATOR)[1];
