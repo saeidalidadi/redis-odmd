@@ -217,7 +217,7 @@ internals.trim_prefix = function(key) {
   return key.split(this.SEPERATOR)[1];
 }
 
-module.exports = function(options={}) {
+module.exports = function(options) {
   internals.client = Redis.createClient(options.redis || {});
   return new Dictionary(options);
 }
