@@ -8,10 +8,17 @@ node_js:
   - '7'
   - '6'
   - '4'
-before_script:
-  - npm prune
 after_success:
   - npm run succeed
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
+sudo: false
+env:
+  - CXX=g++-4.8 TRAVIS=true
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
