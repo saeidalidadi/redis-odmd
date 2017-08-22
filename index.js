@@ -7,7 +7,7 @@ const Flat = require('flat');
 const internals = {}
 
 class Dictionary {
-  constructor(options={})
+  constructor(options)
   {
     this.PREFIX = options.prefix || 'dictionary';
     this.SEPERATOR = options.keySeperator || ':';
