@@ -72,6 +72,7 @@ class Dictionary {
           return reject(err);
         }
         this.data ? this.data[property] = result : this.data = { [property]: result};
+        this.data = Flat.unflatten(this.data);
         resolve(this);
       });
     });
