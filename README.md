@@ -10,22 +10,26 @@ npm install redis-odmd
 ## Example
 
 ```javascript
-const shahcache = require('redis-odmd');
+const Dictionary = require('redis-odmd');
 
 const options = {
     prefix: 'online', // Prefix for your dictionary
     redis: {
-        port: 6378
+        port: 6379
     }
 }
 
 // create your dictionary object
-const online_users = shahcache(options);
+const online_users = Dictionary(options);
 
 let data = {
       name: 'John',
-      family: 'Doe'
-    }
+      family: 'Doe',
+      address: {
+        country: 'Iran',
+        city: 'Shiraz'
+      }
+    };
 
 // Add data to your dictionary (store hash string)
 online_users.set('123', data).then(result => {
@@ -40,10 +44,9 @@ online_users.set('123', data).then(result => {
 
 Is an object which:
 
-* `.prefix` prefix of dictionary
-* `.keySeperator` for seperating `prefix` and `id` as `prefix<keySeperator>id`.
-* `.arraySeperator` `default: ,` for seperating array items.
-* `.redis` all [redis options](https://www.npmjs.com/package/redis#options-object-properties)
+* `prefix` prefix of dictionary
+* `keySeperator` for seperating `prefix` and `id` as `prefix<keySeperator>id`.
+* `redis` all [redis options](https://www.npmjs.com/package/redis#options-object-properties)
 
 ## methods
 
@@ -61,12 +64,28 @@ Is an object which:
       name: 'John',
       family: 'Doe'
     }
-    user_dictionary.get(id, 'name').then(result => {
+    online_users.get(id, 'name').then(result => {
       console.log(result.data.name) // John 
     })
     ```
 
-* `getAll()` returns an object with `id`'s as keys.
+* `getAll()` returns an object contains all hashes with `key:hash`.
+
+```javascript
+online_users.getAll().then(users => {
+  // all users
+  /*
+    {
+      id_1: {
+        name: 'John',
+        family: 'Doe'
+      },
+      ...
+    }
+  */
+})
+
+```
 
 * `delete(id)` redis return style.
 
@@ -81,9 +100,9 @@ Is an object which:
     ### Example
 
     ```javascript
-    dictionary.get('123').then(dic => {
-      dic.data.new_field = 'new_field';
-      dic.update()
+    online_users.get('123').then(user => {
+      user.data.new_field = 'new_field';
+      user.update()
     })
     ```
 
