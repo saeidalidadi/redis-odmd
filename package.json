@@ -1,6 +1,6 @@
 {
   "name": "redis-odmd",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "ODM like for redis cache server.",
   "keywords": [
     "redis",
