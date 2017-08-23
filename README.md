@@ -39,6 +39,11 @@ online_users.set('123', data).then(result => {
 }).catch(err) {
   throw(err);
 }
+
+// get a field of the user hash
+online_users.get('123', 'address.city').then(user => {
+  console.log(user.data.address.city)
+})
 ```
 ## options
 
