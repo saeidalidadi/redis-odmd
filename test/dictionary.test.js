@@ -226,8 +226,11 @@ describe('Dictionary class', () => {
       nestedDictionary.set(first_sample_id, first_sample_data).then(result => {
         expect(result).to.equal('OK');
         dictionary.get(first_sample_id).then(result => {
-          result.data.should.have.property('name', first_sample_data.name);
-          done();
+          result.data.should.be.eql(first_sample_data);
+          dictionary.get(first_sample_id, 'nested.firstProp').then(result => {
+            result.data.nested.should.be.eql(first_sample_data.nested);
+            done();
+          })
         })
       })
     })
