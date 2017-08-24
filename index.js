@@ -54,6 +54,7 @@ class Dictionary {
    * @returns {Promise.<Object|Array>} cached data
    */
   get(id, property) {
+    this.id = id;
     const key = this.key(id);
     return new Promise((resolve, reject) => {
       if(!property) {
