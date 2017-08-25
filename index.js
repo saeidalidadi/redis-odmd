@@ -4,7 +4,11 @@ const Redis = require('redis');
 const Flat = require('flat');
 
 // Private methods
-const internals = {}
+const internals = {
+  flatOption: {
+    overwrite: true
+  }
+};
 
 class Dictionary {
   constructor(options)
@@ -64,7 +68,7 @@ class Dictionary {
           }
           //internals.convert_to_array.call(this, result);
 
-          this.data = Flat.unflatten(result);
+          this.data = Flat.unflatten(result, internals.flatOption);
           resolve(this);
         });
       }
@@ -73,7 +77,7 @@ class Dictionary {
           return reject(err);
         }
         this.data ? this.data[property] = result : this.data = { [property]: result};
-        this.data = Flat.unflatten(this.data);
+        this.data = Flat.unflatten(this.data, internals.flatOption);
         resolve(this);
       });
     });
@@ -81,7 +85,6 @@ class Dictionary {
 
   getAll()
   {
-    const key = this.key();
     const data = {};
 
     return new Promise((resolve, reject) => {
@@ -98,7 +101,7 @@ class Dictionary {
             this.client.hgetall(keys[i], (err, result) => {
               if(err) return reject(err);
               const id = internals.trim_prefix.call(this, keys[i]);
-              data[id] = Flat.unflatten(result);
+              data[id] = Flat.unflatten(result, internals.flatOption);
               (i == keys.length -1) ? resolve(data) : void(0);
             })
           })(i);

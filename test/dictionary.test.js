@@ -21,14 +21,12 @@ const first_sample_data = {
   family: 'Doe',
   phone: '+98-933-9191848'
 };
-
 const first_sample_id  = '123';
 
 const second_sample_data = {
   name: 'Saeid Alidadi',
   dob: '1989-06-12'
 }
-
 const second_sample_id = '321';
 
 const has_method_as_promise = function (method) {
@@ -172,6 +170,57 @@ describe('Dictionary class', () => {
       })
     });
 
+    it('should return all data from cache for nested objects', (done) => {
+      first_sample_data.address = {
+        city: 'Shiraz',
+        country: 'Iran'
+      };
+      dictionary.set(first_sample_id, first_sample_data).then(result =>{
+        dictionary.set(second_sample_id, second_sample_data).then(result => {
+          dictionary.getAll().then(result => {
+            result.should.be.instanceof(Object);
+            result[first_sample_id].should.be.instanceof(Object);
+            result[first_sample_id].should.be.eql(first_sample_data);
+            result[second_sample_id].should.be.eql(second_sample_data);
+            done();
+          })
+        })
+      })
+    });
+
+    it('should change data after update', (done) => {
+      first_sample_data.address = {
+        city: 'Shiraz',
+        country: 'Iran'
+      };
+      dictionary.set(first_sample_id, first_sample_data).then(result =>{
+        first_sample_data.address = '';
+        first_sample_data.emails = {
+          personal: 'john@doe.com'
+        };
+        dictionary.set(first_sample_id, first_sample_data).then(result => {
+          dictionary.getAll().then(result => {
+            done();
+          })
+        })
+      })
+    });
+    it('should overwrite nested objects', (done) => {
+      first_sample_data.address = '';
+      dictionary.set(first_sample_id, first_sample_data).then(result =>{
+        first_sample_data.address = {
+          city: 'Shiraz',
+          country: 'Iran'
+        };
+        dictionary.set(first_sample_id, first_sample_data).then(result => {
+          dictionary.get(first_sample_id).then(result => {
+            console.log(result.data);
+            result.data.address.should.be.eql(first_sample_data.address);
+            done();
+          })
+        })
+      })
+    });
     it('shoud return "0" when there is not any cached for a dictionry.', (done) => {
       dictionary.getAll().then(result => {
         expect(result).to.be.equal(0);
